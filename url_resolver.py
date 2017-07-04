@@ -29,9 +29,9 @@ class UrlResolver:
             match = item.regex.match(url)
             if match and item.method == method:
                 return item.handler, match.groupdict()
-        return self._get_default_handler(), {}
+        return self.get_default_handler(), {}
 
-    def _get_default_handler(self):
+    def get_default_handler(self):
         return lambda request: UrlResolver.Response(
                 status='404 Not Found',
                 headers=[],
