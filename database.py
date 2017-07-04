@@ -66,7 +66,7 @@ class SqliteBackend:
             )
         )
 
-    def select_with_eq_filter(self, table_name, fields_list):
+    def select_with_eq_filter(self, table_name, fields_list, filter_field, filter_value):
         return self._connection.execute('''
                 SELECT {fields}
                 FROM {table_name}
@@ -74,6 +74,8 @@ class SqliteBackend:
             '''.format(
                 fields=util.to_quoted_list(fields_list, quotes='"'),
                 table_name=table_name,
+                filter_field=filter_field,
+                filter_value=filter_value,
             )
         )
 
