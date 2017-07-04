@@ -103,3 +103,6 @@ ENV/
 
 # Any SQLite DB files
 *.db
+
+# PyCharm aux files
+.idea/
