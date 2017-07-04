@@ -43,7 +43,7 @@ class SqliteBackend:
         db_existed_before_connection = os.path.isfile(sqlite_file_path)
         self.connect(sqlite_file_path)
         if not db_existed_before_connection:
-            self._backend.load_dump(dump_file_path)
+            self.load_dump(dump_file_path)
 
     def insert(self, table_name, fields_values):
         self._connection.execute('''
@@ -77,6 +77,6 @@ class SqliteBackend:
             )
         )
 
-    def load_dump(dump_file_path):
+    def load_dump(self, dump_file_path):
         dump = open(dump_file_path, 'rt').read()
         self._connection.executescript(dump)
