@@ -19,12 +19,15 @@ class FeedbackDatabase:
 
     def add_comment(self, comment):
         # TODO
+        pass
 
     def get_regions_list(self):
         # TODO
+        pass
 
     def get_cities_by_region(self, region_id):
         # TODO
+        pass
 
 
 class SqliteBackend:
