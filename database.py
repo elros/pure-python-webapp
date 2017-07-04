@@ -18,13 +18,13 @@ class FeedbackDatabase:
         self._backend.open_db_or_load_dump(sqlite_file_path, dump_file_path)
 
     def add_comment(self, comment):
-        pass
+        # TODO
 
     def get_regions_list(self):
-        pass
+        # TODO
 
     def get_cities_by_region(self, region_id):
-        pass
+        # TODO
 
 
 class SqliteBackend:
