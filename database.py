@@ -29,7 +29,7 @@ class FeedbackDatabase:
 
 class SqliteBackend:
 
-    def __init__(self, db_file_path):
+    def __init__(self):
         self._connection = None
 
     def __del__(self):
