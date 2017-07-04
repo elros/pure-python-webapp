@@ -12,6 +12,15 @@ db = database.FeedbackDatabase(
 url_resolver = UrlResolver()
 
 
+@url_resolver.get('/comments/')
+def comments_list_view(request):
+    return UrlResolver.Response(
+        status='200 OK',
+        headers=[],
+        body='Dummy comments list view'
+    )
+
+
 def wsgi_handler(request, start_response):
     response = url_resolver.get_response(request)
     response.headers.append(('Content-Length', str(len(response.body))))
