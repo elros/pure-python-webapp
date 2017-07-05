@@ -27,6 +27,9 @@ class HTMLGenerator:
     def __unicode__(self):
         return self._html_body
 
+    def __str__(self):
+        return unicode(self).encode('utf-8')
+
     def get_full_html(self):
         return u'<html><head>{head}</head><body>{body}</body></html>'.format(
             head=self._html_head,
