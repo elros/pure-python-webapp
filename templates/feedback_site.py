@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from html_generator import HTMLGenerator
+from templates.html_generator import HTMLGenerator
 
 
 class FeedbackSiteGenerator:
