@@ -22,8 +22,10 @@ class FeedbackDatabase:
         pass
 
     def get_regions_list(self):
-        # TODO
-        pass
+        self._backend.select(
+            table_name='region',
+            fields=['name'],
+        )
 
     def get_cities_by_region(self, region_id):
         # TODO
