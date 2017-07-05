@@ -9,7 +9,8 @@ CREATE TABLE comment(
     region_id integer,
     city_id integer,
     phone_number text,
-    email text
+    email text,
+    feedback_text text
 );
 
 CREATE TABLE region(
