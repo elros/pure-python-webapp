@@ -48,26 +48,26 @@ class SqliteBackend:
         if not db_existed_before_connection:
             self.load_dump(dump_file_path)
 
+    def select(self, table_name, fields):
+        sql_template = '''
+            SELECT {fields}
+            FROM {table_name}
+        '''
+        sql = sql_template.format(
+            fields=util.to_quoted_list(fields, quotes='"'),
+            table_name=table_name,
+        )
+        return self._connection.execute(sql)
+
     def insert(self, table_name, fields):
         sql_template = '''
             INSERT INTO {table_name}({fields})
             VALUES ({values})
-        '''\
-
-        sql_text = sql_template.format(
+        '''
+        sql = sql_template.format(
             table_name=table_name,
             fields=util.to_quoted_list(fields.keys()),
             values=util.to_quoted_list(fields.values()),
-        )
-        return self._connection.execute(sql_text)
-
-    def select(self, table_name, fields):
-        sql = '''
-            SELECT {fields}
-            FROM {table_name}
-        '''.format(
-            fields=util.to_quoted_list(fields, quotes='"'),
-            table_name=table_name,
         )
         return self._connection.execute(sql)
 
