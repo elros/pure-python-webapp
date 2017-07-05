@@ -3,14 +3,13 @@ from wsgiref.simple_server import make_server
 
 import application
 import settings
-import wsgi
 
 
 def main():
     run_development_server(
         host=settings.DEV_SERVER_HOST,
         port=settings.DEV_SERVER_PORT,
-        app=wsgi.wsgi_handler,
+        app=application.wsgi_handler,
     )
 
 
