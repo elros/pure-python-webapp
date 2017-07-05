@@ -3,6 +3,7 @@ import unittest
 
 import util
 from url_resolver import UrlResolver
+from templates import HTMLGenerator
 
 
 class TestUtilities(unittest.TestCase):
@@ -93,6 +94,57 @@ class TestUrlResolver(unittest.TestCase):
 class TestDatabase(unittest.TestCase):
 
     pass
+
+class TestHTMLGenerator(unittest.TestCase):
+
+    def test_partial_html_paragraphs(self):
+        gen = HTMLGenerator()
+        gen.p('Paragraph 1')
+        gen.p('Paragraph 2')
+        partial_html = str(gen)
+        required_html = '<p>Paragraph 1</p>\n<p>Paragraph 2</p>\n'
+        self.assertEqual(partial_html, required_html)
+
+    def test_partial_html_links(self):
+        gen = HTMLGenerator()
+        gen.a('Text 1', 'www.link1.com')
+        gen.a('Text 2', 'www.link2.com')
+        partial_html = str(gen)
+        required_html = '<a href="www.link1.com">Text 1</a>\n' \
+            '<a href="www.link2.com">Text 2</a>\n'
+        self.assertEqual(partial_html, required_html)
+
+    def test_partial_html_mixed_tags(self):
+        gen = HTMLGenerator()
+        gen.h1('Page title')
+        gen.p('Paragraph 1')
+        gen.a('Link 1', 'www.link1.com')
+        gen.p('Paragraph 2')
+        gen.a('Link 2', 'www.link2.com')
+        partial_html = str(gen)
+        required_html = '<h1>Page title</h1>\n' \
+            '<p>Paragraph 1</p>\n' \
+            '<a href="www.link1.com">Link 1</a>\n' \
+            '<p>Paragraph 2</p>\n' \
+            '<a href="www.link2.com">Link 2</a>\n'
+        self.assertEqual(partial_html, required_html)
+
+    def test_full_html_page(self):
+        gen = HTMLGenerator()
+        gen.h1('Page title')
+        gen.p('Paragraph 1')
+        gen.a('Link 1', 'www.link1.com')
+        gen.p('Paragraph 2')
+        gen.a('Link 2', 'www.link2.com')
+        full_html = gen.get_full_html()
+        required_html = '<html><head></head><body>' \
+                        '<h1>Page title</h1>\n' \
+                        '<p>Paragraph 1</p>\n' \
+                        '<a href="www.link1.com">Link 1</a>\n' \
+                        '<p>Paragraph 2</p>\n' \
+                        '<a href="www.link2.com">Link 2</a>\n' \
+                        '</body></html>'
+        self.assertEqual(full_html, required_html)
 
 
 if __name__ == '__main__':

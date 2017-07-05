@@ -16,27 +16,44 @@ class HTMLGenerator:
         )
 
     def p(self, text):
-        self._html_body += '<p>{text}</p>\n'.format(
-            text=text,
+        self._html_body += HTMLGenerator._html_tag(
+            tag='p',
+            inner_text=text,
         )
         return self
 
     def a(self, text, href):
-        self._html_body += '<a href="{href}">{text}</a>\n'.format(
-            text=text,
+        self._html_body += HTMLGenerator._html_tag(
+            tag='a',
+            inner_text=text,
             href=href,
         )
+        return self
 
     def h1(self, text):
-        return self._add_heading(text, '1')
-
-    def h2(self, text):
-        return self._add_heading(text, '2')
-
-    def _add_heading(self, text, level):
-        tag = 'h{level}'.format(level=level)
-        self._html_body += '<{tag}>{text}</{tag}>\n'.format(
-            tag=tag,
-            text=text,
+        self._html_body += HTMLGenerator._html_tag(
+            tag='h1',
+            inner_text=text,
         )
         return self
+
+    def h2(self, text):
+        self._html_body += HTMLGenerator._html_tag(
+            tag='h2',
+            inner_text=text,
+        )
+        return self
+
+    @staticmethod
+    def _html_tag(tag, inner_text, **attributes):
+        if attributes:
+            attrs_list = (attr + '="' + val + '"' for (attr, val) in attributes.items())
+            attrs_str = ' ' + ' '.join(attrs_list)
+        else:
+            attrs_str = ''
+
+        return '<{tag}{attrs}>{text}</{tag}>\n'.format(
+            tag=tag,
+            attrs= attrs_str,
+            text=inner_text,
+        )
