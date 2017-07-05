@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from app import url_resolver
+from application import url_resolver
 
 
 def wsgi_handler(request, start_response):

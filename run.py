@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from wsgiref.simple_server import make_server
 
-import app
+import application
 import settings
 import wsgi
 
