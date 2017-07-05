@@ -22,7 +22,7 @@ class FeedbackDatabase:
         pass
 
     def get_regions_list(self):
-        self._backend.select(
+        return self._backend.select(
             table_name='region',
             fields=['name'],
         )
@@ -71,7 +71,8 @@ class SQLiteBackend:
             fields=util.to_quoted_list(fields.keys()),
             values=', '.join(['?'] * len(fields)),
         )
-        return self._connection.execute(sql, fields.values())
+        self._connection.execute(sql, fields.values())
+        self._connection.commit()
 
     def select_with_eq_filter(self, table_name, fields_list, filter_field, filter_value):
         return self._connection.execute('''
