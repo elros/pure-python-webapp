@@ -59,7 +59,7 @@ class SqliteBackend:
             fields=util.to_quoted_list(fields.keys()),
             values=util.to_quoted_list(fields.values()),
         )
-        return self._connection.execute(sql)
+        return self._connection.execute(sql_text)
 
     def select(self, table_name, fields):
         sql = '''
