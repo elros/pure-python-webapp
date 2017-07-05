@@ -1,16 +1,34 @@
 # -*- coding: utf-8 -*-
 
+
+class FeedbackSiteGenerator:
+
+    def get_comment_page(self):
+        gen = HTMLGenerator()
+        gen.h1(u'Оставить комментарий')
+        gen.form(
+            action='/comment/',
+            method='post',
+            items=[
+                HTMLGenerator()
+                .p('will be here...')
+                .p('another one')
+            ]
+        )
+        return gen.get_full_html()
+
+
 class HTMLGenerator:
 
     def __init__(self):
-        self._html_head = ''
-        self._html_body = ''
+        self._html_head = u''
+        self._html_body = u''
 
-    def __str__(self):
+    def __unicode__(self):
         return self._html_body
 
     def get_full_html(self):
-        return '<html><head>{head}</head><body>{body}</body></html>'.format(
+        return u'<html><head>{head}</head><body>{body}</body></html>'.format(
             head=self._html_head,
             body=self._html_body,
         )
@@ -53,7 +71,7 @@ class HTMLGenerator:
         for item in items:
             self._html_body += HTMLGenerator._paired_tag(
                 tag='li',
-                inner_text=str(item),
+                inner_text=unicode(item),
             )
         self._html_body += HTMLGenerator._close_tag('ul')
         return self
@@ -63,7 +81,7 @@ class HTMLGenerator:
         for item in items:
             self._html_body += HTMLGenerator._paired_tag(
                 tag='li',
-                inner_text=str(item),
+                inner_text=unicode(item),
             )
         self._html_body += HTMLGenerator._close_tag('ol')
         return self
@@ -75,7 +93,7 @@ class HTMLGenerator:
             method=method,
         )
         for item in items:
-            self._html_body += str(item)
+            self._html_body += unicode(item)
         self._html_body += HTMLGenerator._close_tag('form')
         return self
 
@@ -85,7 +103,7 @@ class HTMLGenerator:
 
     @staticmethod
     def _paired_tag(tag, inner_text, **attrs):
-        return HTMLGenerator._open_tag(tag, endl='', **attrs) + str(inner_text) + HTMLGenerator._close_tag(tag)
+        return HTMLGenerator._open_tag(tag, endl='', **attrs) + unicode(inner_text) + HTMLGenerator._close_tag(tag)
 
     @staticmethod
     def _open_tag(tag, endl='\n', **attrs):

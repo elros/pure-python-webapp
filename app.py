@@ -2,6 +2,7 @@
 import settings
 import database
 from urlconf import UrlResolver
+from templates import FeedbackSiteGenerator
 
 
 db = database.FeedbackDatabase(
@@ -11,18 +12,22 @@ db = database.FeedbackDatabase(
 
 url_resolver = UrlResolver()
 
+site_generator = FeedbackSiteGenerator()
 
-@url_resolver.get('/comments/')
+
+@url_resolver.get('/comment/')
 def comments_list_view(request):
     return UrlResolver.Response(
         status='200 OK',
         headers=[],
-        body='Dummy comments list view'
+        body=site_generator.get_comment_page(),
     )
 
 
 def wsgi_handler(request, start_response):
     response = url_resolver.get_response(request)
-    response.headers.append(('Content-Length', str(len(response.body))))
+    body = response.body.encode('utf-8')
+    response.headers.append(('Content-Length', str(len(body))))
+    response.headers.append(('Content-Type', 'text/html; charset=utf-8'))
     start_response(response.status, response.headers)
-    return [response.body]
+    return [body]
