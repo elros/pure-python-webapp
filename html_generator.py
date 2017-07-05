@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class HTMLGenerator:
 
     def __init__(self):
