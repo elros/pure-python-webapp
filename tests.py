@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+import settings
 import util
 from urlconf import UrlResolver
 from templates import HTMLGenerator
+from database import FeedbackDatabase
 
 
 class TestUtilities(unittest.TestCase):
@@ -93,7 +95,41 @@ class TestUrlResolver(unittest.TestCase):
 
 class TestDatabase(unittest.TestCase):
 
-    pass
+    def test_comment_creation(self):
+        db = FeedbackDatabase(
+            sqlite_file_path=':memory:',
+            dump_file_path=settings.DATABASE['DUMP_FILE_PATH'],
+        )
+        db.add_comment(FeedbackDatabase.Comment(
+            id=None,
+            first_name=u'Иван',
+            middle_name=u'Иванович',
+            last_name=u'Иванов',
+            region_id=1,
+            city_id=1,
+            phone_number=u'(861)2334455',
+            email=u'ivan@ivanov.com',
+            feedback_text=u'Тестовый отзыв',
+        ))
+        self.assertEqual(db.get_comments_count(), 1)
+        db.add_comment(FeedbackDatabase.Comment(
+            id=None,
+            first_name=u'Пётр',
+            middle_name=u'Петрович',
+            last_name=u'Петров',
+            region_id=1,
+            city_id=2,
+            phone_number=u'(861)2998877',
+            email=u'petr@petrov.com',
+            feedback_text=u'Другой тестовый отзыв',
+        ))
+        self.assertEqual(db.get_comments_count(), 2)
+
+        select_cursor = db._backend.select('comment', ['last_name'])
+        last_names = sorted(last_name for (last_name,) in select_cursor)
+        required_list = sorted([u'Иванов', u'Петров'])
+        self.assertEqual(last_names, required_list)
+
 
 class TestHTMLGenerator(unittest.TestCase):
 

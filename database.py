@@ -9,7 +9,7 @@ import util
 class FeedbackDatabase:
 
     Comment = namedtuple('Comment', ['id', 'first_name', 'middle_name',
-        'last_name', 'region_id', 'city_id', 'phone_number', 'email'])
+        'last_name', 'region_id', 'city_id', 'phone_number', 'email', 'feedback_text'])
     Region = namedtuple('Region', ['id', 'name'])
     City = namedtuple('City', ['id', 'name', 'region_id'])
 
@@ -18,8 +18,17 @@ class FeedbackDatabase:
         self._backend.open_db_or_load_dump(sqlite_file_path, dump_file_path)
 
     def add_comment(self, comment):
-        # TODO
-        pass
+        self._backend.insert(
+            table_name='comment',
+            fields=comment._asdict(),
+        )
+
+    def get_comments_count(self):
+        cursor = self._backend.select(
+            table_name='comment',
+            fields=['id']
+        )
+        return len(list(cursor))
 
     def get_regions_list(self):
         return self._backend.select(
