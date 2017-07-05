@@ -69,9 +69,9 @@ class SQLiteBackend:
         sql = sql_template.format(
             table_name=table_name,
             fields=util.to_quoted_list(fields.keys()),
-            values=util.to_quoted_list(fields.values()),
+            values=', '.join(['?'] * len(fields)),
         )
-        return self._connection.execute(sql)
+        return self._connection.execute(sql, fields.values())
 
     def select_with_eq_filter(self, table_name, fields_list, filter_field, filter_value):
         return self._connection.execute('''
