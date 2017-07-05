@@ -4,7 +4,7 @@ import unittest
 import settings
 import util
 from urlconf import UrlResolver
-from templates import HTMLGenerator
+from html_generator import HTMLGenerator
 from database import FeedbackDatabase
 
 
