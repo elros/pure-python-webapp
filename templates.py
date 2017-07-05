@@ -56,8 +56,9 @@ class HTMLGenerator:
                 inner_text=str(item),
             )
         self._html_body += HTMLGenerator._close_tag('ul')
+        return self
 
-    def ul(self, items, **attrs):
+    def ol(self, items, **attrs):
         self._html_body += HTMLGenerator._open_tag('ol', **attrs)
         for item in items:
             self._html_body += HTMLGenerator._paired_tag(
@@ -65,6 +66,18 @@ class HTMLGenerator:
                 inner_text=str(item),
             )
         self._html_body += HTMLGenerator._close_tag('ol')
+        return self
+
+    def form(self, action, method, items):
+        self._html_body += HTMLGenerator._open_tag(
+            tag='form',
+            action=action,
+            method=method,
+        )
+        for item in items:
+            self._html_body += str(item)
+        self._html_body += HTMLGenerator._close_tag('form')
+        return self
 
     @staticmethod
     def _single_tag(tag, **attrs):

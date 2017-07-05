@@ -146,6 +146,12 @@ class TestHTMLGenerator(unittest.TestCase):
                         '</body></html>'
         self.assertEqual(full_html, required_html)
 
+    def test_list_tags(self):
+        pass
+
+    def test_form_tag(self):
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()
