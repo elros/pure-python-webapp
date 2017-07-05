@@ -15,45 +15,82 @@ class HTMLGenerator:
             body=self._html_body,
         )
 
-    def p(self, text):
-        self._html_body += HTMLGenerator._html_tag(
+    def p(self, text, **attrs):
+        self._html_body += HTMLGenerator._paired_tag(
             tag='p',
             inner_text=text,
+            **attrs
         )
         return self
 
-    def a(self, text, href):
-        self._html_body += HTMLGenerator._html_tag(
+    def a(self, text, href, **attrs):
+        self._html_body += HTMLGenerator._paired_tag(
             tag='a',
             inner_text=text,
             href=href,
+            **attrs
         )
         return self
 
-    def h1(self, text):
-        self._html_body += HTMLGenerator._html_tag(
+    def h1(self, text, **attrs):
+        self._html_body += HTMLGenerator._paired_tag(
             tag='h1',
             inner_text=text,
+            **attrs
         )
         return self
 
-    def h2(self, text):
-        self._html_body += HTMLGenerator._html_tag(
+    def h2(self, text, **attrs):
+        self._html_body += HTMLGenerator._paired_tag(
             tag='h2',
             inner_text=text,
+            **attrs
         )
         return self
 
+    def ul(self, items, **attrs):
+        self._html_body += HTMLGenerator._open_tag('ul', **attrs)
+        for item in items:
+            self._html_body += HTMLGenerator._paired_tag(
+                tag='li',
+                inner_text=str(item),
+            )
+        self._html_body += HTMLGenerator._close_tag('ul')
+
+    def ul(self, items, **attrs):
+        self._html_body += HTMLGenerator._open_tag('ol', **attrs)
+        for item in items:
+            self._html_body += HTMLGenerator._paired_tag(
+                tag='li',
+                inner_text=str(item),
+            )
+        self._html_body += HTMLGenerator._close_tag('ol')
+
     @staticmethod
-    def _html_tag(tag, inner_text, **attributes):
-        if attributes:
-            attrs_list = (attr + '="' + val + '"' for (attr, val) in attributes.items())
+    def _single_tag(tag, **attrs):
+        return HTMLGenerator._open_tag(tag, **attrs)
+
+    @staticmethod
+    def _paired_tag(tag, inner_text, **attrs):
+        return HTMLGenerator._open_tag(tag, endl='', **attrs) + str(inner_text) + HTMLGenerator._close_tag(tag)
+
+    @staticmethod
+    def _open_tag(tag, endl='\n', **attrs):
+        if attrs:
+            attrs_list = ('{}="{}"'.format(attr, val) for (attr, val) in attrs.items())
             attrs_str = ' ' + ' '.join(attrs_list)
         else:
             attrs_str = ''
 
-        return '<{tag}{attrs}>{text}</{tag}>\n'.format(
+        return '<{tag}{attrs}>{endl}'.format(
             tag=tag,
-            attrs= attrs_str,
-            text=inner_text,
+            attrs=attrs_str,
+            endl=endl
+        )
+
+    @staticmethod
+    def _close_tag(tag, endl='\n'):
+        return '</{tag}>{endl}'.format(
+            tag=tag,
+            endl=endl
         )
