@@ -48,26 +48,28 @@ class SqliteBackend:
         if not db_existed_before_connection:
             self.load_dump(dump_file_path)
 
-    def insert(self, table_name, fields_values):
-        self._connection.execute('''
-                INSERT INTO {table_name}({fields})
-                VALUES ({values})
-            '''.format(
-                table_name=table_name,
-                fields=util.to_quoted_list(fields_values),
-                values=util.to_quoted_list(fields_values),
-            )
-        )
+    def insert(self, table_name, fields):
+        sql_template = '''
+            INSERT INTO {table_name}({fields})
+            VALUES ({values})
+        '''\
 
-    def select(self, table_name, fields_list):
-        return self._connection.execute('''
-                SELECT {fields}
-                FROM {table_name}
-            '''.format(
-                fields=util.to_quoted_list(fields_list, quotes='"'),
-                table_name=table_name,
-            )
+        sql_text = sql_template.format(
+            table_name=table_name,
+            fields=util.to_quoted_list(fields.keys()),
+            values=util.to_quoted_list(fields.values()),
         )
+        return self._connection.execute(sql)
+
+    def select(self, table_name, fields):
+        sql = '''
+            SELECT {fields}
+            FROM {table_name}
+        '''.format(
+            fields=util.to_quoted_list(fields, quotes='"'),
+            table_name=table_name,
+        )
+        return self._connection.execute(sql)
 
     def select_with_eq_filter(self, table_name, fields_list, filter_field, filter_value):
         return self._connection.execute('''
