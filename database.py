@@ -14,7 +14,7 @@ class FeedbackDatabase:
     City = namedtuple('City', ['id', 'name', 'region_id'])
 
     def __init__(self, sqlite_file_path, dump_file_path):
-        self._backend = SqliteBackend()
+        self._backend = SQLiteBackend()
         self._backend.open_db_or_load_dump(sqlite_file_path, dump_file_path)
 
     def add_comment(self, comment):
@@ -30,7 +30,7 @@ class FeedbackDatabase:
         pass
 
 
-class SqliteBackend:
+class SQLiteBackend:
 
     def __init__(self):
         self._connection = None
