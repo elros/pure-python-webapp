@@ -14,7 +14,7 @@ def main():
 
 
 def run_development_server(host, port, app):
-    print('Starting server at %s:%s' % (host, port))
+    print('Starting server at http://%s:%s' % (host, port))
     httpd = make_server(host, port, app)
     httpd.serve_forever()
 
