@@ -2,7 +2,7 @@
 import unittest
 
 import util
-from url_resolver import UrlResolver
+from urlconf import UrlResolver
 from templates import HTMLGenerator
 
 

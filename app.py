@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import settings
 import database
-from url_resolver import UrlResolver
+from urlconf import UrlResolver
 
 
 db = database.FeedbackDatabase(
