@@ -3,9 +3,9 @@ import unittest
 
 import settings
 import util
-from urlconf import UrlResolver
-from html_generator import HTMLGenerator
-from database import FeedbackDatabase
+from database.feedback_db import FeedbackDatabase
+from templates.html_generator import HTMLGenerator
+from urlconf.url_resolver import UrlResolver
 
 
 class TestUtilities(unittest.TestCase):

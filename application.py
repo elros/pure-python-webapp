@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import database
 import settings
-from templates import FeedbackSiteGenerator
-from urlconf import UrlResolver
+from templates.feedback_site import FeedbackSiteGenerator
+from urlconf.url_resolver import UrlResolver
 
 db = database.FeedbackDatabase(
     sqlite_file_path=settings.DATABASE['SQLITE_FILE_PATH'],
