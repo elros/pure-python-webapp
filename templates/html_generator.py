@@ -75,15 +75,14 @@ class HTMLGenerator:
         self._html_body += HTMLGenerator._close_tag('ol')
         return self
 
-    def form(self, action, method, items):
-        self._html_body += HTMLGenerator._open_tag(
+    def form(self, action, method, items, **attrs):
+        self._html_body += HTMLGenerator._paired_tag_with_items(
             tag='form',
             action=action,
             method=method,
+            items=items,
+            **attrs
         )
-        for item in items:
-            self._html_body += unicode(item)
-        self._html_body += HTMLGenerator._close_tag('form')
         return self
 
     def input(self, **attrs):
@@ -109,6 +108,17 @@ class HTMLGenerator:
     @staticmethod
     def _paired_tag(tag, inner_text, **attrs):
         return HTMLGenerator._open_tag(tag, endl='', **attrs) + unicode(inner_text) + HTMLGenerator._close_tag(tag)
+
+    @staticmethod
+    def _paired_tag_with_items(tag, items, **attrs):
+        html = HTMLGenerator._open_tag(
+            tag=tag,
+            **attrs
+        )
+        for item in items:
+            html += unicode(item)
+        html += HTMLGenerator._close_tag(tag)
+        return html
 
     @staticmethod
     def _open_tag(tag, endl='\n', **attrs):
