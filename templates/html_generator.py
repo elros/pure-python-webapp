@@ -105,12 +105,12 @@ class HTMLGenerator:
     @staticmethod
     def _open_tag(tag, endl='\n', **attrs):
         if attrs:
-            attrs_list = ('{}="{}"'.format(attr, val) for (attr, val) in attrs.items())
+            attrs_list = (u'{}="{}"'.format(attr, val) for (attr, val) in attrs.items())
             attrs_str = ' ' + ' '.join(attrs_list)
         else:
             attrs_str = ''
 
-        return '<{tag}{attrs}>{endl}'.format(
+        return u'<{tag}{attrs}>{endl}'.format(
             tag=tag,
             attrs=attrs_str,
             endl=endl
@@ -118,7 +118,7 @@ class HTMLGenerator:
 
     @staticmethod
     def _close_tag(tag, endl='\n'):
-        return '</{tag}>{endl}'.format(
+        return u'</{tag}>{endl}'.format(
             tag=tag,
             endl=endl
         )
