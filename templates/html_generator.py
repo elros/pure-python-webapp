@@ -17,8 +17,12 @@ class HTMLGenerator:
             body=self._html_body,
         )
 
-    def text(self, text):
-        self._html_body += unicode(text)
+    def span(self, text, **attrs):
+        self._html_body += HTMLGenerator._paired_tag(
+            tag='span',
+            inner_text=text,
+            **attrs
+        )
         return self
 
 

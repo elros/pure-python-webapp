@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from templates.html_generator import HTMLGenerator
-from database.feedback_db import FeedbackDatabase
 
 
 class FeedbackSiteGenerator:
@@ -17,16 +16,16 @@ class FeedbackSiteGenerator:
             items=[
                 HTMLGenerator()
 
-                .text(u'Фамилия:').br()
+                .span(u'Фамилия:').span('*', style='color: red').br()
                 .input(type='text', name='last_name', size='30').br()
 
-                .text(u'Имя:').br()
+                .span(u'Имя:').span('*', style='color: red').br()
                 .input(type='text', name='first_name', size='30').br()
 
-                .text(u'Отчество:').br()
+                .span(u'Отчество:').br()
                 .input(type='text', name='middle_name', size='30').br()
 
-                .text(u'Регион:').br()
+                .span(u'Регион:').br()
                 .select(
                     name='region',
                     items=[
@@ -45,7 +44,7 @@ class FeedbackSiteGenerator:
                 )
                 .br()
 
-                .text(u'Город:').br()
+                .span(u'Город:').br()
                 .select(
                     name='city',
                     items=[
@@ -57,19 +56,21 @@ class FeedbackSiteGenerator:
                 )
                 .br()
 
-                .text(u'Контактный телефон:').br()
+                .span(u'Контактный телефон:').br()
                 .input(type='text', name='phone_number', size='30').br()
 
-                .text(u'E-mail:').br()
+                .span(u'E-mail:').br()
                 .input(type='text', name='email', size='30').br()
 
-                .text(u'Комментарий:').br()
+                .span(u'Комментарий:').span('*', style='color: red').br()
                 .textarea(
                     inner_text='',
                     rows='12',
                     cols='50',
                 )
                 .br()
+
+                .span(u'* - обязательные поля', style='color: red').br()
 
                 .br()
                 .input(type='submit', value=u'Отправить').br()
