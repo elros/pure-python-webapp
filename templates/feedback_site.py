@@ -7,7 +7,7 @@ class FeedbackSiteGenerator:
     def __init__(self, db):
         self._db = db
 
-    def get_comment_page(self):
+    def get_comment_form_page(self):
         gen = HTMLGenerator()
         gen.h1(u'Оставить комментарий')
         gen.form(
@@ -36,10 +36,10 @@ class FeedbackSiteGenerator:
                         )
                     ] + [
                         HTMLGenerator().option(
-                            inner_text=name,
-                            value=unicode(id),
+                            inner_text=region.name,
+                            value=unicode(region.id),
                         )
-                        for (id, name,) in self._db.get_regions_list()
+                        for region in self._db.get_regions_list()
                     ]
                 )
                 .br()
@@ -76,4 +76,12 @@ class FeedbackSiteGenerator:
                 .input(type='submit', value=u'Отправить').br()
             ]
         )
+        return gen.get_full_html()
+
+    def get_comments_list_page(self):
+        gen = HTMLGenerator()
+        gen.h1(u'Список комментариев')
+        for comment in self._db.get_comments_list():
+            # TODO
+            pass
         return gen.get_full_html()

@@ -23,6 +23,9 @@ class UrlResolver:
     def post(self, url_regex):
         return self._get_wrapper_for_http_method('POST', url_regex)
 
+    def delete(self, url_regex):
+        return self._get_wrapper_for_http_method('DELETE', url_regex)
+
     def _get_matching_handler(self, url, method):
         for item in self._urlconf:
             match = item.regex.match(url)

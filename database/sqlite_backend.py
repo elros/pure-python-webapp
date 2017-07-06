@@ -47,17 +47,18 @@ class SQLiteBackend:
         self._connection.commit()
 
     def select_with_eq_filter(self, table_name, fields_list, filter_field, filter_value):
-        return self._connection.execute('''
-                SELECT {fields}
-                FROM {table_name}
-                WHERE {filter_field} = {filter_value}
-            '''.format(
-                fields=util.to_quoted_list(fields_list, quotes='"'),
-                table_name=table_name,
-                filter_field=filter_field,
-                filter_value=filter_value,
-            )
+        sql_template = '''
+            SELECT {fields}
+            FROM {table_name}
+            WHERE {filter_field} = ?
+        '''
+        sql = sql_template.format(
+            fields=util.to_quoted_list(fields_list, quotes='"'),
+            table_name=table_name,
+            filter_field=filter_field,
         )
+        print sql
+        return self._connection.execute(sql, filter_value)
 
     def load_dump(self, dump_file_path):
         dump = open(dump_file_path, 'rt').read()
