@@ -12,8 +12,9 @@ class FeedbackSiteGenerator:
             method='post',
             items=[
                 HTMLGenerator()
-                .p('will be here...')
-                .p('another one')
+                .text(u'Фамилия:').input(type='text', name='last_name').br()
+                .text(u'Имя:').input(type='text', name='first_name').br()
+                .text(u'Отчество:').input(type='text', name='middle_name').br()
             ]
         )
         return gen.get_full_html()

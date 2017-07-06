@@ -17,6 +17,11 @@ class HTMLGenerator:
             body=self._html_body,
         )
 
+    def text(self, text):
+        self._html_body += unicode(text)
+        return self
+
+
     def p(self, text, **attrs):
         self._html_body += HTMLGenerator._paired_tag(
             tag='p',
