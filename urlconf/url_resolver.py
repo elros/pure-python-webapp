@@ -1,6 +1,8 @@
 import re
 from collections import namedtuple
 
+import util
+
 
 class UrlResolver:
 
@@ -34,11 +36,7 @@ class UrlResolver:
         return self.get_default_handler(), {}
 
     def get_default_handler(self):
-        return lambda request: UrlResolver.Response(
-                status='404 Not Found',
-                headers=[],
-                body='Page not found.',
-            )
+        return lambda request: util.get_http404_response()
 
     def _get_wrapper_for_http_method(self, http_method, url_regex):
         def wrapper(func):

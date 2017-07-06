@@ -19,6 +19,16 @@ def html_success_response(data):
     )
 
 
+def get_http404_response():
+    return UrlResolver.Response(
+        status='404 Not Found',
+        headers=[
+            ('Content-Type', 'text/html; charset=utf-8')
+        ],
+        body=u'Запрашиваемая страница не найдена.',
+    )
+
+
 def json_success_response(data):
     return UrlResolver.Response(
         status='200 OK',
