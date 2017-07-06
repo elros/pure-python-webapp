@@ -81,6 +81,13 @@ class HTMLGenerator:
         self._html_body += HTMLGenerator._close_tag('form')
         return self
 
+    def input(self, **attrs):
+        self._html_body += HTMLGenerator._single_tag('input', **attrs)
+        return self
+
+    def br(self, **attrs):
+        self._html_body += HTMLGenerator._single_tag('br', **attrs)
+
     @staticmethod
     def _single_tag(tag, **attrs):
         return HTMLGenerator._open_tag(tag, **attrs)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from database.feedback_db import FeedbackDatabase
 import settings
+from database.feedback_db import FeedbackDatabase
 from templates.feedback_site import FeedbackSiteGenerator
 from urlconf.url_resolver import UrlResolver
 
