@@ -90,6 +90,14 @@ class HTMLGenerator:
         self._html_body += HTMLGenerator._single_tag('input', **attrs)
         return self
 
+    def option(self, inner_text, **attrs):
+        self._html_body += HTMLGenerator._paired_tag(
+            tar='option',
+            inner_text=inner_text,
+            **attrs
+        )
+        return self
+
     def br(self, **attrs):
         self._html_body += HTMLGenerator._single_tag('br', **attrs)
         return self
