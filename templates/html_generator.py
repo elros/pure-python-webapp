@@ -42,6 +42,14 @@ class HTMLGenerator:
         )
         return self
 
+    def b(self, text, **attrs):
+        self._html_body += HTMLGenerator._paired_tag(
+            tag='b',
+            inner_text=text,
+            **attrs
+        )
+        return self
+
     def h1(self, text, **attrs):
         self._html_body += HTMLGenerator._paired_tag(
             tag='h1',
