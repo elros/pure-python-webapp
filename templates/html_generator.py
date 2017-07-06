@@ -104,6 +104,14 @@ class HTMLGenerator:
         )
         return self
 
+    def textarea(self, inner_text, **attrs):
+        self._html_body += HTMLGenerator._paired_tag(
+            tag='textarea',
+            inner_text=inner_text,
+            **attrs
+        )
+        return self
+
     def br(self, **attrs):
         self._html_body += HTMLGenerator._single_tag('br', **attrs)
         return self
