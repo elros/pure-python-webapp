@@ -4,6 +4,9 @@ from templates.html_generator import HTMLGenerator
 
 class FeedbackSiteGenerator:
 
+    def __init__(self, db):
+        self._db = db
+
     def get_comment_page(self):
         gen = HTMLGenerator()
         gen.h1(u'Оставить комментарий')

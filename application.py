@@ -12,7 +12,7 @@ db = FeedbackDatabase(
 
 url_resolver = UrlResolver()
 
-site_generator = FeedbackSiteGenerator()
+site_generator = FeedbackSiteGenerator(db)
 
 
 @url_resolver.get('/comment/')
