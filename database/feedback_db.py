@@ -31,7 +31,7 @@ class FeedbackDatabase:
     def get_regions_list(self):
         return self._backend.select(
             table_name='region',
-            fields=['name'],
+            fields=['id', 'name'],
         )
 
     def get_cities_by_region(self, region_id):
