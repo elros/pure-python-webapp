@@ -25,7 +25,26 @@ def comment_form_view(request):
 
 @url_resolver.post('/comment/')
 def create_comment(request):
-    return util.html_success_response('')
+    data = util.extract_post_data(request)
+    comment = FeedbackDatabase.Comment(
+        id=None,
+        first_name=util.escape_variable(data, 'first_name'),
+        middle_name=util.escape_variable(data, 'middle_name'),
+        last_name=util.escape_variable(data, 'last_name'),
+        region_id=util.escape_variable(data, 'region_id'),
+        city_id=util.escape_variable(data, 'city_id'),
+        phone_number=util.escape_variable(data, 'phone_number'),
+        email=util.escape_variable(data, 'email'),
+        feedback_text=util.escape_variable(data, 'feedback_text'),
+    )
+    db.add_comment(comment)
+    return util.http_redirect_response('/comment/thanks/')
+
+@url_resolver.get('/comment/thanks/')
+def comment_thanks_page(request):
+    return util.html_success_response(
+        data=site_generator.get_thanks_page(),
+    )
 
 
 @url_resolver.get('/view/')

@@ -79,9 +79,24 @@ class FeedbackSiteGenerator:
         return gen.get_full_html()
 
     def get_comments_list_page(self):
+        comments = self._db.get_comments_list()
+        comments_sorted_by_newest = sorted(
+            comments,
+            key=(lambda comment: comment.id),
+            reverse=True,
+        )
+
         gen = HTMLGenerator()
         gen.h1(u'Список комментариев')
-        for comment in self._db.get_comments_list():
-            # TODO
-            pass
+        for comment in comments_sorted_by_newest:
+            full_name = comment.last_name + comment.first_name + (comment.middle_name)
+            gen.p(
+                HTMLGenerator()
+            )
+        return gen.get_full_html()
+
+    def get_thanks_page(self):
+        gen = HTMLGenerator()
+        gen.h2(u'Спасибо за ваш комментарий!')
+        gen.a(u'Назад к форме', '/comment/')
         return gen.get_full_html()

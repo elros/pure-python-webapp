@@ -37,7 +37,7 @@ class UrlResolver:
         return self.get_default_handler(), {}
 
     def get_default_handler(self):
-        return lambda request: util.get_http404_response()
+        return lambda request: util.http_404_response()
 
     def _get_wrapper_for_http_method(self, http_method, url_regex):
         def wrapper(func):
