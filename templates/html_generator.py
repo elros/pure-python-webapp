@@ -98,7 +98,7 @@ class HTMLGenerator:
 
     def option(self, inner_text, **attrs):
         self._html_body += HTMLGenerator._paired_tag(
-            tar='option',
+            tag='option',
             inner_text=inner_text,
             **attrs
         )
