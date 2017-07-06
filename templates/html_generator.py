@@ -89,6 +89,13 @@ class HTMLGenerator:
         self._html_body += HTMLGenerator._single_tag('input', **attrs)
         return self
 
+    def select(self, items, **attrs):
+        self._html_body += HTMLGenerator._paired_tag_with_items(
+            tag='select',
+            items=items,
+            **attrs
+        )
+
     def option(self, inner_text, **attrs):
         self._html_body += HTMLGenerator._paired_tag(
             tar='option',
