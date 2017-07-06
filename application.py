@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
-
 import settings
 import util
 from database.feedback_db import FeedbackDatabase
