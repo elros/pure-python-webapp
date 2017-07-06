@@ -25,7 +25,6 @@ class HTMLGenerator:
         )
         return self
 
-
     def p(self, text, **attrs):
         self._html_body += HTMLGenerator._paired_tag(
             tag='p',
