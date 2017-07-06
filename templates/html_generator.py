@@ -95,6 +95,7 @@ class HTMLGenerator:
             items=items,
             **attrs
         )
+        return self
 
     def option(self, inner_text, **attrs):
         self._html_body += HTMLGenerator._paired_tag(
