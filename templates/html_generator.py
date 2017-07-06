@@ -92,6 +92,7 @@ class HTMLGenerator:
 
     def br(self, **attrs):
         self._html_body += HTMLGenerator._single_tag('br', **attrs)
+        return self
 
     @staticmethod
     def _single_tag(tag, **attrs):
