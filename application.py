@@ -37,6 +37,8 @@ def create_comment(request):
         email=util.escape_variable(data, 'email'),
         feedback_text=util.escape_variable(data, 'feedback_text'),
     )
+    if not all([comment.first_name, comment.last_name, comment.feedback_text]):
+        return util.http_bad_request_response()
     db.create_comment(comment)
     return util.http_redirect_response('/comment/thanks/')
 
