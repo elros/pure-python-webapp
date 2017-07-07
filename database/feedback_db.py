@@ -56,19 +56,31 @@ class FeedbackDatabase:
             yield FeedbackDatabase.City(*city_fields)
 
     def get_region_name(self, region_id):
+        if region_id is None:
+            return None
         cursor = self._backend.select_with_eq_filter(
             table_name='region',
             fields_list=['name'],
             filter_field='id',
-            filter_value=region_id,
+            filter_value=int(region_id),
         )
-        return cursor.fetchone()[0]
+        data = cursor.fetchone()
+        if data:
+            return data[0]
+        else:
+            return None
 
     def get_city_name(self, city_id):
+        if city_id is None:
+            return None
         cursor = self._backend.select_with_eq_filter(
             table_name='region',
             fields_list=['name'],
             filter_field='id',
-            filter_value=city_id,
+            filter_value=int(city_id),
         )
-        return cursor.fetchone()[0]
+        data = cursor.fetchone()
+        if data:
+            return data[0]
+        else:
+            return None
