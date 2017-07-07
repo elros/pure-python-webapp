@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os.path
+import re
 
 # Development server parameters
 DEV_SERVER_HOST = 'localhost'
@@ -13,3 +14,6 @@ DATABASE = {
 
 # JavaScript folder
 JS_PATH = os.path.join('.', 'js')
+
+# Valid phone number format
+PHONE_NUMBER_REGEX = re.compile('\(\d+\)\d+')

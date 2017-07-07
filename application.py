@@ -25,6 +25,7 @@ def comment_form_view(request):
 
 @url_resolver.post('/comment/')
 def create_comment(request):
+    # Extract posted data
     data = util.extract_post_data(request)
     comment = FeedbackDatabase.Comment(
         id=None,
@@ -37,8 +38,16 @@ def create_comment(request):
         email=util.escape_variable(data, 'email'),
         feedback_text=util.escape_variable(data, 'feedback_text'),
     )
+
+    # Check that comment is valid
     if not all([comment.first_name, comment.last_name, comment.feedback_text]):
         return util.http_bad_request_response()
+    if not comment.city_id in [city.id for city in db.get_cities_by_region(comment.region_id)]:
+        return util.http_bad_request_response()
+    if not settings.PHONE_NUMBER_REGEX.match(comment.phone_number):
+        return util.http_bad_request_response()
+
+    # Create a comment object and return successful response
     db.create_comment(comment)
     return util.http_redirect_response('/comment/thanks/')
 
