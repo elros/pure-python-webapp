@@ -17,6 +17,14 @@ class HTMLGenerator:
             body=self._html_body,
         )
 
+    def js_script(self, scipt_text):
+        self._html_head += HTMLGenerator._paired_tag(
+            tag='script',
+            type='text/javascript',
+            inner_text=scipt_text,
+        )
+        return self
+
     def div(self, text, **attrs):
         self._html_body += HTMLGenerator._paired_tag(
             tag='div',

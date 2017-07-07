@@ -2,7 +2,9 @@
 import json
 from urlparse import parse_qs
 import cgi
+import os.path
 
+import settings
 from urlconf.url_resolver import UrlResolver
 
 
@@ -41,6 +43,14 @@ def http_redirect_response(url):
     )
 
 
+def http_bad_request_response():
+    return UrlResolver.Response(
+        status='400 Bad Request',
+        headers=[],
+        body='',
+    )
+
+
 def json_success_response(data):
     return UrlResolver.Response(
         status='200 OK',
@@ -73,3 +83,7 @@ def escape_variable(posted_data, var_name):
         return escape(posted_data[var_name][0]).decode('utf-8')
     else:
         return None
+
+
+def get_js_scipt(js_file_name):
+    return open(os.path.join(settings.JS_PATH, js_file_name)).read()

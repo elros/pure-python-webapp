@@ -59,7 +59,6 @@ class FeedbackDatabase:
             filter_value=region_id,
         )
         for city_fields in cursor:
-            print city_fields
             yield FeedbackDatabase.City(*city_fields)
 
     def get_region_name(self, region_id):
@@ -81,7 +80,7 @@ class FeedbackDatabase:
         if city_id is None:
             return None
         cursor = self._backend.select_with_eq_filter(
-            table_name='region',
+            table_name='city',
             fields_list=['name'],
             filter_field='id',
             filter_value=int(city_id),

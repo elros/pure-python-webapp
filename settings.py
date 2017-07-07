@@ -10,3 +10,6 @@ DATABASE = {
     'SQLITE_FILE_PATH': 'feedback_app.db',
     'DUMP_FILE_PATH': os.path.join('sql', 'load_db.sql'),
 }
+
+# JavaScript folder
+JS_PATH = os.path.join('.', 'js')

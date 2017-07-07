@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from templates.html_generator import HTMLGenerator
+import util
 
 
 class FeedbackSiteGenerator:
@@ -9,25 +10,31 @@ class FeedbackSiteGenerator:
 
     def get_comment_form_page(self):
         page = HTMLGenerator()
+
+        page.js_script(util.get_js_scipt('scripts.js'))
+
         page.h1(u'Оставить комментарий')
         page.form(
             action='/comment/',
             method='post',
+            onsubmit='return checkCommentForm();',
             items=[
                 HTMLGenerator()
 
                 .span(u'Фамилия:').span('*', style='color: red').br()
-                .input(type='text', name='last_name', size='30').br()
+                .input(type='text', id='last_name_input', name='last_name', size='30').br()
 
                 .span(u'Имя:').span('*', style='color: red').br()
-                .input(type='text', name='first_name', size='30').br()
+                .input(type='text', id='first_name_input', name='first_name', size='30').br()
 
                 .span(u'Отчество:').br()
-                .input(type='text', name='middle_name', size='30').br()
+                .input(type='text', id='middle_name_input', name='middle_name', size='30').br()
 
                 .span(u'Регион:').br()
                 .select(
+                    id='region_selector',
                     name='region_id',
+                    onchange='loadCitiesForSelectedRegion()',
                     items=[
                         HTMLGenerator().option(
                             inner_text='',
@@ -46,6 +53,7 @@ class FeedbackSiteGenerator:
 
                 .span(u'Город:').br()
                 .select(
+                    id='city_selector',
                     name='city_id',
                     items=[
                         HTMLGenerator().option(
@@ -57,14 +65,15 @@ class FeedbackSiteGenerator:
                 .br()
 
                 .span(u'Контактный телефон:').br()
-                .input(type='text', name='phone_number', size='30').br()
+                .input(type='text', id='phone_number_input', name='phone_number', size='30').br()
 
                 .span(u'E-mail:').br()
-                .input(type='text', name='email', size='30').br()
+                .input(type='text', id='email_input', name='email', size='30').br()
 
                 .span(u'Комментарий:').span('*', style='color: red').br()
                 .textarea(
                     name='feedback_text',
+                    id='feedback_text_input',
                     inner_text='',
                     rows='12',
                     cols='50',
