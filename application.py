@@ -40,6 +40,7 @@ def create_comment(request):
     db.add_comment(comment)
     return util.http_redirect_response('/comment/thanks/')
 
+
 @url_resolver.get('/comment/thanks/')
 def comment_thanks_page(request):
     return util.html_success_response(

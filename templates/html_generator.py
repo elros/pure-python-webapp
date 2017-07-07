@@ -17,6 +17,14 @@ class HTMLGenerator:
             body=self._html_body,
         )
 
+    def div(self, text, **attrs):
+        self._html_body += HTMLGenerator._paired_tag(
+            tag='div',
+            inner_text=text,
+            **attrs
+        )
+        return self
+
     def span(self, text, **attrs):
         self._html_body += HTMLGenerator._paired_tag(
             tag='span',
