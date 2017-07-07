@@ -37,8 +37,14 @@ def create_comment(request):
         email=util.escape_variable(data, 'email'),
         feedback_text=util.escape_variable(data, 'feedback_text'),
     )
-    db.add_comment(comment)
+    db.create_comment(comment)
     return util.http_redirect_response('/comment/thanks/')
+
+
+@url_resolver.post('/comment/(?P<comment_id>\d+)/delete/')
+def delete_comment(request, comment_id):
+    db.delete_comment(comment_id)
+    return util.http_redirect_response('/view/')
 
 
 @url_resolver.get('/comment/thanks/')

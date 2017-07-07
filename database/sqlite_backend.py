@@ -47,6 +47,18 @@ class SQLiteBackend:
         self._connection.execute(sql, fields.values())
         self._connection.commit()
 
+    def delete(self, table_name, filter_field, filter_value):
+        sql_template = '''
+            DELETE FROM {table_name}
+            WHERE {filter_field} = ?
+        '''
+        sql = sql_template.format(
+            table_name=table_name,
+            filter_field=filter_field,
+        )
+        self._connection.execute(sql, [filter_value])
+        self._connection.commit()
+
     def select_with_eq_filter(self, table_name, fields_list, filter_field, filter_value):
         sql_template = '''
             SELECT {fields}
@@ -58,8 +70,7 @@ class SQLiteBackend:
             table_name=table_name,
             filter_field=filter_field,
         )
-        print sql
-        return self._connection.execute(sql, filter_value)
+        return self._connection.execute(sql, [filter_value])
 
     def load_dump(self, dump_file_path):
         dump = open(dump_file_path, 'rt').read()

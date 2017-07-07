@@ -100,7 +100,7 @@ class TestDatabase(unittest.TestCase):
             sqlite_file_path=':memory:',
             dump_file_path=settings.DATABASE['DUMP_FILE_PATH'],
         )
-        db.add_comment(FeedbackDatabase.Comment(
+        db.create_comment(FeedbackDatabase.Comment(
             id=None,
             first_name=u'Иван',
             middle_name=u'Иванович',
@@ -112,7 +112,7 @@ class TestDatabase(unittest.TestCase):
             feedback_text=u'Тестовый отзыв',
         ))
         self.assertEqual(db.get_comments_count(), 1)
-        db.add_comment(FeedbackDatabase.Comment(
+        db.create_comment(FeedbackDatabase.Comment(
             id=None,
             first_name=u'Пётр',
             middle_name=u'Петрович',

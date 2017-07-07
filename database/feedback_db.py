@@ -15,10 +15,17 @@ class FeedbackDatabase:
         self._backend = SQLiteBackend()
         self._backend.open_db_or_load_dump(sqlite_file_path, dump_file_path)
 
-    def add_comment(self, comment):
+    def create_comment(self, comment):
         self._backend.insert(
             table_name='comment',
             fields=comment._asdict(),
+        )
+
+    def delete_comment(self, comment_id):
+        self._backend.delete(
+            table_name='comment',
+            filter_field='id',
+            filter_value=int(comment_id),
         )
 
     def get_comments_count(self):

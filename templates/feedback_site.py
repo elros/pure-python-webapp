@@ -27,7 +27,7 @@ class FeedbackSiteGenerator:
 
                 .span(u'Регион:').br()
                 .select(
-                    name='region',
+                    name='region_id',
                     items=[
                         HTMLGenerator().option(
                             inner_text='',
@@ -46,7 +46,7 @@ class FeedbackSiteGenerator:
 
                 .span(u'Город:').br()
                 .select(
-                    name='city',
+                    name='city_id',
                     items=[
                         HTMLGenerator().option(
                             inner_text=u'(Выберите регион)'
@@ -64,6 +64,7 @@ class FeedbackSiteGenerator:
 
                 .span(u'Комментарий:').span('*', style='color: red').br()
                 .textarea(
+                    name='feedback_text',
                     inner_text='',
                     rows='12',
                     cols='50',
@@ -95,8 +96,6 @@ class FeedbackSiteGenerator:
         for comment in comments_sorted_by_newest:
             page_part = HTMLGenerator()
 
-            page_part.a(u'[ Удалить ]', '#').br()
-
             full_name = ' '.join([comment.last_name, comment.first_name, (comment.middle_name or '')])
             page_part.b(u'ФИО: ').span(full_name).br()
 
@@ -112,7 +111,18 @@ class FeedbackSiteGenerator:
             page_part.b(u'E-mail: ').span(comment.email or '-').br()
 
             page_part.b(u'Комментарий:').br()
-            page_part.span(comment.feedback_text).br()
+            page_part.span(
+                comment.feedback_text.replace('\n', '<br>')
+            ).br()
+
+            page_part.form(
+                action='/comment/{id}/delete/'.format(id=comment.id),
+                method='post',
+                items=[
+                    HTMLGenerator()
+                        .input(type='submit', value=u'Удалить')
+                ]
+            )
 
             page.div(page_part)
             page.br().br()
