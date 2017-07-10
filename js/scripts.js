@@ -30,21 +30,22 @@ function removeSelectOptions(selectbox) {
     }
 }
 
-function isNotEmpty(it){
+function isNotEmpty(it) {
     return (it != '');
 }
 
-function isValidPhoneNumber(it){
-    return (it.match(/\(\d+\)\d+/));
-};
+function isValidPhoneNumber(it) {
+    return (it.match(/^\(\d+\)\d+$/));
+}
 
-function isValidEmail(it){
-        rfc5322_email_regex = new RegExp('^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+function isValidEmail(it) {
+        rfc5322_email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return it.match(rfc5322_email_regex);
-    };
+}
 
 
 function checkCommentForm() {
+
     function markIfInvalid(input, validator) {
         if (!validator(input.value)) {
             input.style.background = '#fee';
@@ -79,14 +80,18 @@ function checkCommentForm() {
         canPostForm = false;
     }
 
-    if (isNotEmpty(phoneNumber) && !phoneNumberIsValid) {
+    if (isNotEmpty(phoneNumber)){
+        if (!phoneNumberIsValid) {
+            canPostForm = false;
+        }
         markIfInvalid(phoneNumberInput, isValidPhoneNumber);
-        canPostForm = false;
     }
 
-    if (isNotEmpty(email) && !emailIsValid) {
+    if (isNotEmpty(email)) {
         markIfInvalid(emailInput, isValidEmail);
-        canPostForm = false;
+        if (!emailIsValid) {
+            canPostForm = false;
+        }
     }
 
     return canPostForm;

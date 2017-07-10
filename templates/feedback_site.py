@@ -164,6 +164,7 @@ class FeedbackSiteGenerator:
                     comments_count
                 ]
                 for (region_id, region_name, comments_count) in self._db.get_regions_comment_statistics()
+                if comments_count > 5
             ]
         )
 

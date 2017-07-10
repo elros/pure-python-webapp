@@ -49,7 +49,7 @@ def create_comment(request):
         if not settings.PHONE_NUMBER_REGEX.match(comment.phone_number):
             return util.http_bad_request_response()
     if comment.email:
-        if not settings.EMAIL_REGEX(comment.email):
+        if not settings.EMAIL_REGEX.match(comment.email):
             return util.http_bad_request_response()
 
     # Create a comment object and return successful response
