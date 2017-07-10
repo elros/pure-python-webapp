@@ -144,6 +144,32 @@ class HTMLGenerator:
         self._html_body += HTMLGenerator._single_tag('br', **attrs)
         return self
 
+    def table(self, thead, tbody, **attrs):
+        self._html_body += HTMLGenerator._open_tag('table', **attrs)
+
+        self._html_body += HTMLGenerator._open_tag('thead')
+        self._html_body += HTMLGenerator._open_tag('tr')
+        for field in thead:
+            self._html_body += HTMLGenerator._paired_tag(
+                tag='th',
+                inner_text=unicode(field),
+            )
+        self._html_body += HTMLGenerator._close_tag('tr')
+        self._html_body += HTMLGenerator._close_tag('thead')
+
+        self._html_body += HTMLGenerator._open_tag('tbody')
+        for record in tbody:
+            self._html_body += HTMLGenerator._open_tag('tr')
+            for field in record:
+                self._html_body += HTMLGenerator._paired_tag(
+                    tag='td',
+                    inner_text=unicode(field),
+                )
+            self._html_body += HTMLGenerator._close_tag('tr')
+        self._html_body += HTMLGenerator._close_tag('tbody')
+
+        self._html_body += HTMLGenerator._close_tag('table')
+
     @staticmethod
     def _single_tag(tag, **attrs):
         return HTMLGenerator._open_tag(tag, **attrs)

@@ -38,13 +38,21 @@ function isValidPhoneNumber(it){
     return (it.match(/\(\d+\)\d+/));
 };
 
-function isValidEmail(it){ return (
-        rfc5322_email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        it.match(rfc5322_email_regex);
+function isValidEmail(it){
+        rfc5322_email_regex = new RegExp('^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+        return it.match(rfc5322_email_regex);
     };
 
 
 function checkCommentForm() {
+    function markIfInvalid(input, validator) {
+        if (!validator(input.value)) {
+            input.style.background = '#fee';
+        } else {
+            input.style.background = '#fff';
+        }
+    }
+
     var firstNameInput = document.getElementById('first_name_input');
     var lastNameInput = document.getElementById('last_name_input');
     var feedbackTextInput = document.getElementById('feedback_text_input');
@@ -59,32 +67,27 @@ function checkCommentForm() {
 
     var mandatoryFieldsAreNotEmpty = isNotEmpty(firstName) && isNotEmpty(lastName) && isNotEmpty(feedbackText);
     var phoneNumberIsValid = isValidPhoneNumber(phoneNumber);
-    var mailIsValid = isValidEmail(email);
+    var emailIsValid = isValidEmail(email);
 
-    console.log(mandatoryFieldsAreNotEmpty);
-    console.log(phoneNumberIsValid);
-    console.log(mailIsValid);
-    return false;
+    var canPostForm = true;
 
-    var formIsValid = mandatoryFieldsAreNotEmpty && phoneNumberIsValid && mailIsValid;
+     markIfInvalid(firstNameInput, isNotEmpty);
+     markIfInvalid(lastNameInput, isNotEmpty);
+     markIfInvalid(feedbackTextInput, isNotEmpty);
 
-    if (!formIsValid) {
-        function markIfInvalid(input, validator) {
-            if (!validator(input.value)) {
-                input.style.background = '#fee';
-            } else {
-                input.style.background = '#fff';
-            }
-        }
-
-        markIfInvalid(firstNameInput, isNotEmpty);
-        markIfInvalid(lastNameInput, isNotEmpty);
-        markIfInvalid(feedbackTextInput, isNotEmpty);
-        markIfInvalid(phoneNumberInput, isValidPhoneNumber);
-        markIfInvalid(emailInput, isValidEmail)
-
-        return false;
+    if (!mandatoryFieldsAreNotEmpty) {
+        canPostForm = false;
     }
 
-    return true;
+    if (isNotEmpty(phoneNumber) && !phoneNumberIsValid) {
+        markIfInvalid(phoneNumberInput, isValidPhoneNumber);
+        canPostForm = false;
+    }
+
+    if (isNotEmpty(email) && !emailIsValid) {
+        markIfInvalid(emailInput, isValidEmail);
+        canPostForm = false;
+    }
+
+    return canPostForm;
 }

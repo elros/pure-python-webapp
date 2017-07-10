@@ -64,7 +64,7 @@ class FeedbackSiteGenerator:
                 )
                 .br()
 
-                .span(u'Контактный телефон:').br()
+                .span(u'Контактный телефон (формат: (999)9999999):').br()
                 .input(type='text', id='phone_number_input', name='phone_number', size='30').br()
 
                 .span(u'E-mail:').br()
@@ -116,7 +116,7 @@ class FeedbackSiteGenerator:
                 (city_name or '-')
             ).br()
 
-            page_part.b(u'Контактный телефон: ').span(comment.phone_number or '-').br()
+            page_part.b(u'Контактный телефон:').span(comment.phone_number or '-').br()
             page_part.b(u'E-mail: ').span(comment.email or '-').br()
 
             page_part.b(u'Комментарий:').br()
@@ -146,6 +146,52 @@ class FeedbackSiteGenerator:
         page.br().br().div(self._get_site_navigation_panel())
         return page.get_full_html()
 
+    def get_regions_statistics_summary_page(self):
+        page = HTMLGenerator()
+        page.h1(u'Статистика комментариев по регионам')
+
+        page.table(
+            thead=[
+                u'Регион',
+                u'Количество комментариев',
+            ],
+            tbody=[
+                [
+                    HTMLGenerator().a(
+                        text=region_name,
+                        href='/stat/region/{id}/'.format(id=region_id),
+                    ),
+                    comments_count
+                ]
+                for (region_id, region_name, comments_count) in self._db.get_regions_comment_statistics()
+            ]
+        )
+
+        page.br().br().div(self._get_site_navigation_panel())
+        return page.get_full_html()
+
+    def get_region_detailed_statistics_page(self, region_id):
+        page = HTMLGenerator()
+        region_name = self._db.get_region_name(region_id)
+        page.h1(u'Статистика комментариев ({name})'.format(name=region_name))
+
+        page.table(
+            thead=[
+                u'Город',
+                u'Количество комментариев'
+            ],
+            tbody=[
+                [
+                    city.name,
+                    self._db.get_city_comments_count(city.id),
+                ]
+                for city in self._db.get_cities_by_region(region_id)
+            ]
+        )
+
+        page.br().br().div(self._get_site_navigation_panel())
+        return page.get_full_html()
+
     def _get_site_navigation_panel(self):
         page_part = HTMLGenerator()
         page_part.h2(u'Навигация')
@@ -155,7 +201,7 @@ class FeedbackSiteGenerator:
                 for (text, link) in [
                     (u'Форма создания комментария', '/comment/'),
                     (u'Список комментариев', '/view/'),
-                    (u'Статистика', '/stat/'),
+                    (u'Статистика комментариев', '/stat/'),
                 ]
             ]
         )

@@ -18,7 +18,7 @@ site_generator = FeedbackSiteGenerator(db)
 
 @url_resolver.get('/comment/')
 def comment_form_view(request):
-    return util.html_success_response(
+    return util.http_success_response(
         data=site_generator.get_comment_form_page(),
     )
 
@@ -42,12 +42,15 @@ def create_comment(request):
     # Check that comment is valid
     if not all([comment.first_name, comment.last_name, comment.feedback_text]):
         return util.http_bad_request_response()
-    if not comment.city_id in [city.id for city in db.get_cities_by_region(comment.region_id)]:
-        return util.http_bad_request_response()
-    if not settings.PHONE_NUMBER_REGEX.match(comment.phone_number):
-        return util.http_bad_request_response()
-    if not settings.EMAIL_REGEX(comment.email):
-        return util.http_bad_request_response()
+    if comment.city_id:
+        if int(comment.city_id) not in [city.id for city in db.get_cities_by_region(comment.region_id)]:
+            return util.http_bad_request_response()
+    if comment.phone_number:
+        if not settings.PHONE_NUMBER_REGEX.match(comment.phone_number):
+            return util.http_bad_request_response()
+    if comment.email:
+        if not settings.EMAIL_REGEX(comment.email):
+            return util.http_bad_request_response()
 
     # Create a comment object and return successful response
     db.create_comment(comment)
@@ -62,14 +65,14 @@ def delete_comment(request, comment_id):
 
 @url_resolver.get('/comment/thanks/')
 def comment_thanks_page(request):
-    return util.html_success_response(
+    return util.http_success_response(
         data=site_generator.get_thanks_page(),
     )
 
 
 @url_resolver.get('/view/')
 def comments_list_view(request):
-    return util.html_success_response(
+    return util.http_success_response(
         data=site_generator.get_comments_list_page(),
     )
 
@@ -80,6 +83,20 @@ def region_cities_list(request, region_id):
         data={
             'cities': [city._asdict() for city in db.get_cities_by_region(region_id)]
         }
+    )
+
+
+@url_resolver.get('/stat/')
+def regions_summary_statistics(request):
+    return util.http_success_response(
+        data=site_generator.get_regions_statistics_summary_page(),
+    )
+
+
+@url_resolver.get('/stat/region/(?P<region_id>\d+)/')
+def region_detailed_statistics(request, region_id):
+    return util.http_success_response(
+        data=site_generator.get_region_detailed_statistics_page(region_id),
     )
 
 

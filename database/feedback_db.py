@@ -90,3 +90,29 @@ class FeedbackDatabase:
             return data[0]
         else:
             return None
+
+    def get_regions_comment_statistics(self):
+        cursor = self._backend.select(
+            table_name='region',
+            fields=['id', 'name'],
+        )
+        for (id, name) in cursor:
+            yield (id, name, self.get_region_comments_count(id))
+
+    def get_region_comments_count(self, region_id):
+        cursor = self._backend.select_with_eq_filter(
+            table_name='comment',
+            fields_list=['id'],
+            filter_field='region_id',
+            filter_value=int(region_id),
+        )
+        return len(list(cursor))
+
+    def get_city_comments_count(self, city_id):
+        cursor = self._backend.select_with_eq_filter(
+            table_name='comment',
+            fields_list=['id'],
+            filter_field='city_id',
+            filter_value=int(city_id),
+        )
+        return len(list(cursor))

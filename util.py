@@ -13,7 +13,7 @@ def to_quoted_list(items, quotes='\'', sep=', '):
     return sep.join(quoted(item) for item in items)
 
 
-def html_success_response(data):
+def http_success_response(data):
     return UrlResolver.Response(
         status='200 OK',
         headers=[
@@ -59,6 +59,19 @@ def json_success_response(data):
         ],
         body=json.dumps({
             'success': True,
+            'data': data,
+        }, ensure_ascii=False)
+    )
+
+
+def json_error_response(data={}):
+    return UrlResolver.Response(
+        status='200 OK',
+        headers=[
+            ('Content-Type', 'text/json; charset=utf-8'),
+        ],
+        body=json.dumps({
+            'success': False,
             'data': data,
         }, ensure_ascii=False)
     )
