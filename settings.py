@@ -17,3 +17,6 @@ JS_PATH = os.path.join('.', 'js')
 
 # Valid phone number format
 PHONE_NUMBER_REGEX = re.compile('\(\d+\)\d+')
+
+# Valid email format
+EMAIL_REGEX = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")

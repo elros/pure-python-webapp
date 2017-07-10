@@ -46,6 +46,8 @@ def create_comment(request):
         return util.http_bad_request_response()
     if not settings.PHONE_NUMBER_REGEX.match(comment.phone_number):
         return util.http_bad_request_response()
+    if not settings.EMAIL_REGEX(comment.email):
+        return util.http_bad_request_response()
 
     # Create a comment object and return successful response
     db.create_comment(comment)
